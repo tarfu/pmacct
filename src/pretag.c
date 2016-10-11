@@ -579,7 +579,6 @@ void load_id_file(int acct_type, char *filename, struct id_table *t, struct plug
         for (ptr = t->ipv4_base, x = 0; x < t->ipv4_num; ptr++, x++) {
 #endif
 	  idx_bmap = pretag_index_build_bitmap(ptr, acct_type);
-	  if (!idx_bmap) continue;
 
 	  /* insert bitmap to index list and determine entries per index */ 
 	  if (pretag_index_insert_bitmap(t, idx_bmap)) {
@@ -602,7 +601,6 @@ void load_id_file(int acct_type, char *filename, struct id_table *t, struct plug
         for (ptr = t->ipv4_base, x = 0; x < t->ipv4_num; ptr++, x++) {
 #endif
           idx_bmap = pretag_index_build_bitmap(ptr, acct_type);
-          if (!idx_bmap) continue;
 
 	  /* fill indexes */
 	  pretag_index_fill(t, idx_bmap, ptr);
@@ -862,7 +860,7 @@ int pretag_index_insert_bitmap(struct id_table *t, pt_bitmap_t idx_bmap)
   if (!t) return TRUE;
 
   for (iterator = 0; iterator < t->index_num; iterator++) {
-    if (!t->index[iterator].bitmap || t->index[iterator].bitmap == idx_bmap) {
+    if (!t->index[iterator].entries || t->index[iterator].bitmap == idx_bmap) {
       t->index[iterator].bitmap = idx_bmap;
       t->index[iterator].entries++;
       return FALSE;
@@ -924,7 +922,7 @@ int pretag_index_allocate(struct id_table *t)
   if (!t) return TRUE;
 
   for (iterator = 0; iterator < t->index_num; iterator++) {
-    if (t->index[iterator].bitmap) {
+    if (t->index[iterator].entries) {
       Log(LOG_INFO, "INFO ( %s/%s ): [%s] maps_index: created index %x (%u entries).\n", config.name,
     		config.type, t->filename, t->index[iterator].bitmap, t->index[iterator].entries);
 
@@ -973,7 +971,7 @@ int pretag_index_fill(struct id_table *t, pt_bitmap_t idx_bmap, struct id_entry 
   if (!t) return ERR;
 
   for (iterator = 0; iterator < t->index_num; iterator++) {
-    if (t->index[iterator].bitmap && t->index[iterator].bitmap == idx_bmap) {
+    if (t->index[iterator].entries && t->index[iterator].bitmap == idx_bmap) {
       struct id_entry e;
       struct id_index_entry *idie;
       pm_hash_serial_t *hash_serializer;
