@@ -752,6 +752,30 @@ AC_ARG_ENABLE(kafka,
 )
 dnl finish: Kafka handling
 
+dnl start: REDIS handling
+AC_MSG_CHECKING(whether to enable REDIS support)
+AC_ARG_ENABLE(redis,
+  [  --enable-redis                Enable REDIS support (default: no)],
+  [ case "$enableval" in
+  yes)
+    AC_MSG_RESULT(yes)
+    dnl reasonably old hiredis already support pkg-config
+    PKG_CHECK_MODULES([HIREDIS], [hiredis])
+    PLUGINS="${PLUGINS} redis"
+    USING_REDIS="yes"
+    PMACCT_CFLAGS="$PMACCT_CFLAGS $REDIS_CFLAGS"
+    AC_DEFINE(WITH_REDIS, 1)
+    ;;
+  no)
+    AC_MSG_RESULT(no)
+    ;;
+  esac ],
+  [
+    AC_MSG_RESULT(no)
+  ]
+)
+dnl finish: REDIS handling
+
 dnl start: geoip handling
 AC_MSG_CHECKING(whether to enable GeoIP support)
 AC_ARG_ENABLE(geoip,

@@ -173,6 +173,7 @@ struct configuration {
   int kafka_partition;
   char *kafka_partition_key;
   int kafka_partition_keylen;
+  int redis_db;
   int print_cache_entries;
   int print_markers;
   int print_output;

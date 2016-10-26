@@ -32,6 +32,7 @@
 #define PLUGIN_ID_MONGODB	9
 #define PLUGIN_ID_AMQP		10
 #define PLUGIN_ID_KAFKA		11
+#define PLUGIN_ID_REDIS		12
 #define PLUGIN_ID_UNKNOWN       -1
 
 /* vars */
@@ -480,6 +481,11 @@ static const struct _dictionary_line dictionary[] = {
   {"kafka_num_protos", cfg_key_num_protos},
   {"kafka_markers", cfg_key_print_markers},
   {"kafka_output", cfg_key_message_broker_output},
+  {"redis_host", cfg_key_sql_host},
+  {"redis_port", cfg_key_kafka_broker_port},
+  {"redis_db", cfg_key_redis_db},
+  {"redis_keyname", cfg_key_sql_table},
+  {"redis_auth", cfg_key_sql_passwd},
   {"nfacctd_proc_name", cfg_key_proc_name},
   {"nfacctd_port", cfg_key_nfacctd_port},
   {"nfacctd_ip", cfg_key_nfacctd_ip},
@@ -837,6 +843,9 @@ static struct plugin_type_entry plugin_types_list[] = {
 #endif
 #ifdef WITH_KAFKA
   {PLUGIN_ID_KAFKA,     "kafka",        kafka_plugin},
+#endif
+#ifdef WITH_REDIS
+  {PLUGIN_ID_REDIS,     "redis",        redis_plugin},
 #endif
   {PLUGIN_ID_TEE,	"tee",		tee_plugin},
   {PLUGIN_ID_UNKNOWN,	"",		NULL},

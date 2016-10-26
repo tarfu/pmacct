@@ -1768,6 +1768,31 @@ int cfg_key_kafka_partition_key(char *filename, char *name, char *value_ptr)
   return changes;
 }
 
+
+int cfg_key_redis_db(char *filename, char *name, char *value_ptr) {
+    struct plugins_list_entry *list = plugins_list;
+    int value, changes = 0;
+
+    value = atoi(value_ptr);
+    if (value < 0) {
+        Log(LOG_ERR, "WARN: [%s] 'redis_db' has to be larger than 0.\n", filename);
+        return ERR;
+    }
+
+    if (!name) for (; list; list = list->next, changes++) list->cfg.redis_db = value;
+    else {
+        for (; list; list = list->next) {
+            if (!strcmp(name, list->name)) {
+                list->cfg.redis_db = value;
+                changes++;
+                break;
+            }
+        }
+    }
+
+    return changes;
+}
+
 int cfg_key_sql_aggressive_classification(char *filename, char *name, char *value_ptr)
 {
   struct plugins_list_entry *list = plugins_list;
@@ -7109,3 +7134,4 @@ int cfg_key_telemetry_dump_kafka_partition_key(char *filename, char *name, char 
 
   return changes;
 }
+

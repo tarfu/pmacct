@@ -101,6 +101,7 @@ EXT int cfg_key_amqp_routing_key_rr(char *, char *, char *);
 EXT int cfg_key_kafka_broker_port(char *, char *, char *);
 EXT int cfg_key_kafka_partition(char *, char *, char *);
 EXT int cfg_key_kafka_partition_key(char *, char *, char *);
+EXT int cfg_key_redis_db(char *, char *, char *);
 EXT int cfg_key_plugin_pipe_size(char *, char *, char *);
 EXT int cfg_key_plugin_pipe_backlog(char *, char *, char *);
 EXT int cfg_key_plugin_pipe_check_core_pid(char *, char *, char *);
